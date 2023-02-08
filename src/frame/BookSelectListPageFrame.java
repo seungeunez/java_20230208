@@ -47,6 +47,7 @@ public class BookSelectListPageFrame extends JDialog implements ItemListener {
 		this.setVisible(true);
 
 	}
+	//^_^.... ..........모르겠당 ! ~
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
