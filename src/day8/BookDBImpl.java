@@ -88,11 +88,11 @@ public class BookDBImpl implements BookDB {
 				book.setNo(doc.getInteger("_id"));
 				book.setTitle(doc.getString("title"));
 				book.setAuthor(doc.getString("author"));
-				book.setPrice(doc.getInteger("price"));
+				book.setPrice(doc.getLong("price"));	//Int Long 주의하자 이거땜에 오류났음
 				book.setCate(doc.getString("cate").charAt(0)); // String => char
 				book.setDate(doc.getDate("date"));
 
-				list.add(book);	//반복 회수만큼 list에 추가하기
+				list.add(book);	//반복 회수만큼 list에 추가하ㅣㄱ
 
 			}
 			return list;
