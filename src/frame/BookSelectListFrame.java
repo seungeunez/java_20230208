@@ -28,8 +28,10 @@ public class BookSelectListFrame extends JDialog {
 		// 인터페이스면 객체를 만들기 어렵다
 		
 		// Vector == ArraryList
-		// Object[]
+//		배열 사용시
 		String[] colume = { "번호", "제목", "저자", "가격", "분류", "날짜" }; // 배열로 만든것
+		
+//		벡터 사용시
 //		Vector<String> vector = new Vector<>();	//벡터로 만든것 배열이나 벡터나 둘 중 하나 쓰면 됨 편한걸로
 //		vector.add("번호");
 //		vector.add("제목");
@@ -39,8 +41,13 @@ public class BookSelectListFrame extends JDialog {
 //		vector.add("날짜");
 
 		
-		// DefaultTableModel model = new DefaultTableModel(vector, 0); // vector대신에
-		// list로 생각할 것
+		
+		
+		// 인터페이스명 = new 인터페이스명 X
+		// 인터페이스명 = new 하위모델명 O
+		// 하위모델명 = new 하위모델명 O
+		
+		// DefaultTableModel model = new DefaultTableModel(vector, 0); // vector를 list로 생각할 것 
 		DefaultTableModel model = new DefaultTableModel(colume, 0);
 
 		List<Book> list = bookDB.selectBookList();
