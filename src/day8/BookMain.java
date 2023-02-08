@@ -1,7 +1,6 @@
 package day8;
 
-import frame.BookInsertFrame;
-import frame.BookSelectListFrame;
+
 import frame.BookSelectListPageFrame;
 
 //화면을 실행시키는 역할
@@ -32,6 +31,18 @@ public class BookMain {
 			
 		}
 */
+		
+		
+		BookDB obj = new BookDBImpl();
+		
+		Book book = new Book();
+		book.setNo(118);		// 기본키를 찾아서 나머지 변경시킬수 있는 항목 변경시키는거라 기본키도 꼭 들어가야한다
+		book.setAuthor("미상");
+		book.setPrice(15000);
+		book.setTitle("동화");
+		
+		int ret = obj.updateBook(book);
+		System.out.println(ret);
 	}
 
 }

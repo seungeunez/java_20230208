@@ -104,7 +104,7 @@ public class BookDBImpl implements BookDB {
 		}
 	}
 
-	// 데이터를 최소 21개 이상 추가하고 10개씩 조회해
+	// 데이터를 최소 21개 이상 추가하고 한페이지당 10개씩 나올 수 있게끔
 	//
 	// 책 10개씩 조회
 	@Override
@@ -150,21 +150,20 @@ public class BookDBImpl implements BookDB {
 	@Override
 	public int updateBook(Book book) {
 
-//		try {
-//			Bson filter = Filters.eq("_id", book.getNo());
-//
-//			Bson update1 = Updates.set("title", book.getTitle());
-//			Bson update2 = Updates.set("author", book.getAuthor());
-//			Bson update3 = Updates.set("title", book.getTitle());
-//
-//			Bson update = Updates.combine(update1, update2, update3);
-//			return 1;
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return -1;
-//		}
-		return -1;
+		try {
+			Bson filter = Filters.eq("_id", book.getNo());
+
+			Bson update1 = Updates.set("title", book.getTitle());
+			Bson update2 = Updates.set("author", book.getAuthor());
+			Bson update3 = Updates.set("price", book.getPrice());
+
+			Bson update = Updates.combine(update1, update2, update3);
+			return 1;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
 
 	}
 
