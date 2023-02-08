@@ -47,8 +47,11 @@ public class BookSelectListFrame extends JDialog {
 		for (Book book : list) { // list에서 book으로 복사하는거임
 			String[] data = { 	
 					book.getNo() + "", // 문자열에 넣는거니깐 형변환을 해줘야함 그래서  +" "(문자)를 더해주면 바로 문자로 바뀜
-					book.getTitle(), book.getAuthor(), 
-					book.getPrice() + "", book.getCate() + "", book.getDate() + "",
+					book.getTitle(),
+					book.getAuthor(), 
+					book.getPrice() + "", 
+					book.getCate() + "", 
+					book.getDate() + "",
 
 			};
 			model.addRow(data);
