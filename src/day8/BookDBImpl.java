@@ -27,7 +27,7 @@ public class BookDBImpl implements BookDB {
 	// 생성자
 	public BookDBImpl() {
 		try {
-			// URL과 데이터베이스 명칭 클래스를 따로 만들어주고 가져오는 방식으로 했음 static으로 만들었기 때문에 클래스명.변수명 으로하면
+			// URL과 데이터베이스 명칭 클래스를 따로 만들어주고 가져오는 방식으로 했음 static으로 만들었기 때문에 클래스명.변수명 으로하면 된다
 			// 자동으로 가져옴
 			MongoDatabase db = MongoClients.create(Config.URL).getDatabase(Config.DBNAME);
 			this.sequence = db.getCollection("sequence");
@@ -81,6 +81,7 @@ public class BookDBImpl implements BookDB {
 			// 반환 타입을 위한 빈 배열 객체 생성(비어 있음)
 			List<Book> list = new ArrayList<Book>();
 
+			//전체 조회는 this.books.find() 까지만
 			FindIterable<Document> docs = this.books.find(); // find( )사이에 조건이 없으니깐 전체 출력임
 			// docs의 값을 list로 다 복사하기
 			for (Document doc : docs) { // 전체목록에서 하나를 복사해서 doc에 저장
@@ -88,11 +89,11 @@ public class BookDBImpl implements BookDB {
 				book.setNo(doc.getInteger("_id"));
 				book.setTitle(doc.getString("title"));
 				book.setAuthor(doc.getString("author"));
-				book.setPrice(doc.getLong("price"));	//Int Long 주의하자 이거땜에 오류났음
+				book.setPrice(doc.getLong("price")); // Int Long 주의하자 이거땜에 오류났음
 				book.setCate(doc.getString("cate").charAt(0)); // String => char
 				book.setDate(doc.getDate("date"));
 
-				list.add(book);	//반복 회수만큼 list에 추가하ㅣㄱ
+				list.add(book); // 반복 회수만큼 list에 추가하ㅣㄱ
 
 			}
 			return list;
@@ -103,11 +104,39 @@ public class BookDBImpl implements BookDB {
 		}
 	}
 
+	// 데이터를 최소 21개 이상 추가하고 10개씩 조회해
+	//
 	// 책 10개씩 조회
 	@Override
 	public List<Book> selectBookListPage(int page) {
+		List<Book> list = new ArrayList<>();
+		try {
 
+			Bson sort = Filters.eq("_id", -1); // 책번호를 기준으로 내림차순
+			// page = 1 => 점프안함 page = 2 => 10개 점프하고 생기고, page = 3 =>20
+			FindIterable<Document> docs = this.books.find().sort(sort).skip(10 * (page - 1)).limit(10);
+										//조회 관련된건 this.books.find()뒤부터 달라질뿐 나머지 내용은 같다
+			
+			for (Document doc : docs) { // 전체목록에서 하나를 복사해서 doc에 저장
+				Book book = new Book();
+				book.setNo(doc.getInteger("_id"));
+				book.setTitle(doc.getString("title"));
+				book.setAuthor(doc.getString("author"));
+				book.setPrice(doc.getLong("price")); 
+				book.setCate(doc.getString("cate").charAt(0)); 
+				book.setDate(doc.getDate("date"));
+
+				list.add(book); // 반복 회수만큼 list에 추가하ㅣㄱ
+
+			}
+			return list;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
 		return null;
+
 	}
 
 	// 책 삭제
@@ -121,7 +150,22 @@ public class BookDBImpl implements BookDB {
 	@Override
 	public int updateBook(Book book) {
 
-		return 0;
+//		try {
+//			Bson filter = Filters.eq("_id", book.getNo());
+//
+//			Bson update1 = Updates.set("title", book.getTitle());
+//			Bson update2 = Updates.set("author", book.getAuthor());
+//			Bson update3 = Updates.set("title", book.getTitle());
+//
+//			Bson update = Updates.combine(update1, update2, update3);
+//			return 1;
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return -1;
+//		}
+		return -1;
+
 	}
 
 	// 책 1권 조회
@@ -134,6 +178,12 @@ public class BookDBImpl implements BookDB {
 	// n이상 가격에 해당하는 책 조회
 	@Override
 	public List<Book> selectBookPrice(long price) {
+		try {
+			
+		} catch (Exception e) {
+			
+		}
+		
 
 		return null;
 	}
