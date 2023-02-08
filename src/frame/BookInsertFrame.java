@@ -1,13 +1,17 @@
-package day8;
+package frame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.JLabel;
+
+import day8.Book;
+import day8.BookDB;
+import day8.BookDBImpl;
 
 //인터페이스를 서로 공유하고 있기때문에 서로 버튼을 누르면 알고있는거임. 인터페이스를 안하면 안됨
 public class BookInsertFrame extends JDialog implements ActionListener { // 1. actionlistenr가져옴 bookinsertframe에 오류가

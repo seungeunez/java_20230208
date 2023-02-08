@@ -1,11 +1,14 @@
 package day8;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -24,6 +27,8 @@ public class BookDBImpl implements BookDB {
 	// 생성자
 	public BookDBImpl() {
 		try {
+			// URL과 데이터베이스 명칭 클래스를 따로 만들어주고 가져오는 방식으로 했음 static으로 만들었기 때문에 클래스명.변수명 으로하면
+			// 자동으로 가져옴
 			MongoDatabase db = MongoClients.create(Config.URL).getDatabase(Config.DBNAME);
 			this.sequence = db.getCollection("sequence");
 			this.books = db.getCollection("books");
@@ -57,7 +62,7 @@ public class BookDBImpl implements BookDB {
 			System.out.println(result);
 
 			if (result.getInsertedId().asInt32().getValue() == doc.getInteger("idx")) {
-
+				// _id 타입이 int로 쓰여서 asInt32
 				return 1;
 			}
 			return 0;
@@ -72,8 +77,30 @@ public class BookDBImpl implements BookDB {
 	// 책 전체 조회
 	@Override
 	public List<Book> selectBookList() {
+		try {
+			// 반환 타입을 위한 빈 배열 객체 생성(비어 있음)
+			List<Book> list = new ArrayList<Book>();
 
-		return null;
+			FindIterable<Document> docs = this.books.find(); // find( )사이에 조건이 없으니깐 전체 출력임
+			// docs의 값을 list로 다 복사하기
+			for (Document doc : docs) { // 전체목록에서 하나를 복사해서 doc에 저장
+				Book book = new Book();
+				book.setNo(doc.getInteger("_id"));
+				book.setTitle(doc.getString("title"));
+				book.setAuthor(doc.getString("author"));
+				book.setPrice(doc.getInteger("price"));
+				book.setCate(doc.getString("cate").charAt(0)); // String => char
+				book.setDate(doc.getDate("date"));
+
+				list.add(book);	//반복 회수만큼 list에 추가하기
+
+			}
+			return list;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	// 책 10개씩 조회
