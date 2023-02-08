@@ -112,7 +112,7 @@ public class BookDBImpl implements BookDB {
 		List<Book> list = new ArrayList<>();
 		try {
 
-			Bson sort = Filters.eq("_id", -1); // 책번호를 기준으로 내림차순
+			Bson sort = Filters.eq("_id", -1); // 책번호를 기준으로 내림차순함
 			// page = 1 => 점프안함 page = 2 => 10개 점프하고 생기고, page = 3 =>20
 			FindIterable<Document> docs = this.books.find().sort(sort).skip(10 * (page - 1)).limit(10);
 										//조회 관련된건 this.books.find()뒤부터 달라질뿐 나머지 내용은 같다
@@ -126,7 +126,7 @@ public class BookDBImpl implements BookDB {
 				book.setCate(doc.getString("cate").charAt(0)); 
 				book.setDate(doc.getDate("date"));
 
-				list.add(book); // 반복 회수만큼 list에 추가하ㅣㄱ
+				list.add(book); // 반복 회수만큼 list에 추가하기
 
 			}
 			return list;
